@@ -22,7 +22,8 @@ new_model = tf.keras.models.load_model('Digit_Recognizer.h5')
 
 #Parameters for Warping the image
 margin = 10
-case = 28 + 2*margin
+#case = 28 + 2*margin
+case = 12 + 2*margin
 perspective_size = 9*case
 
 cap = cv2.VideoCapture(0)
@@ -158,7 +159,6 @@ def ExtractGrid(contour, frame):
     invert_window = invert.copy()
 
     invert_window = invert_window / 255
-    i = 0
 
     return result, invert, invert_window, matrix, p_window
 
@@ -169,6 +169,7 @@ while True:
     contours = processFrameForContour(frame)
     contour, maxArea = FindLargestContour(contours)
     if contour is not None:
+        i = 0
         result, invert, invert_window, matrix, p_window = ExtractGrid(contour, frame)
 
         # Check if the answer has been already predicted or not
@@ -186,8 +187,6 @@ while True:
                 y2max = (y + 1) * case - margin
                 x2min = x * case + margin
                 x2max = (x + 1) * case - margin
-
-                i = 0
 
                 # Obtained Cell
                 image = invert_window[y2min:y2max, x2min:x2max]
@@ -224,6 +223,7 @@ while True:
             # Get predicted digit list
             if flag != 1:
                 predicted_digits.append(predicted_line)
+                print(str(predicted_digits))
 
             # Get solved Sudoku
             ans = solveSudoku(predicted_digits)

@@ -100,7 +100,7 @@ datagen = tf.keras.preprocessing.image.ImageDataGenerator(width_shift_range=0.1,
 #Training the model
 callbacks = myCallback()
 history = model.fit(datagen.flow(train_images, train_labels),
-    epochs = 30, validation_data = (val_images, val_labels), callbacks = [callbacks])
+    epochs = 3000, validation_data = (val_images, val_labels), callbacks = [callbacks])
 
 #Plot graphs for analysis
 plt.figure(1)
