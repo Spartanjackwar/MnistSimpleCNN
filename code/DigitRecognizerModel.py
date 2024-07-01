@@ -6,19 +6,22 @@ import cv2
 from sklearn.model_selection import train_test_split
 
 # Get the data
-classes = 10
+classes = 11
 images = []
 labels = []
 
 for i in range(1, classes):
     #imgList = os.listdir('Chars74k/Data/' + str(i))
-    imgList = os.listdir('../data/chars74k/Img/GoodImg/Bmp/Sample00' + str(i))
+    path = '../data/chars74k/Img/GoodImg/Bmp/Sample0'
+    if i < 10:
+        path = path + '0'
+    imgList = os.listdir(path + str(i))
     for j in imgList:
         #currentImg = cv2.imread('Chars74k/Data/' + str(i) + '/' + str(j))
-        currentImg = cv2.imread('../data/chars74k/Img/GoodImg/Bmp/Sample00' + str(i) + '/' + str(j))
+        currentImg = cv2.imread(path + str(i) + '/' + str(j))
         currentImg = cv2.resize(currentImg, (28, 28))
         images.append(currentImg)
-        labels.append(i)
+        labels.append(i-1)
 
 print(len(images))
 print(len(labels))

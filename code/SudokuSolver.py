@@ -18,15 +18,18 @@ if use_cuda == False:
 
 #Load the model
 new_model = tf.keras.models.load_model('Digit_Recognizer.h5')
+#new_model = tf.keras.models.load_model('Digit_RecognizerBETTER.h5')
 #new_model = ModelM5().to(device)
 
 #Parameters for Warping the image
 margin = 10
-#case = 28 + 2*margin
-case = 12 + 2*margin
+case = 28 + 2*margin
 perspective_size = 9*case
 
+useStaticImageOnly = True
 cap = cv2.VideoCapture(0)
+if useStaticImageOnly:
+    cap = cv2.imread('../data/sudoku.png', cv2.IMREAD_UNCHANGED)
 
 flag = 0
 ans = 0
@@ -163,7 +166,11 @@ def ExtractGrid(contour, frame):
     return result, invert, invert_window, matrix, p_window
 
 while True:
-    ret, frame = cap.read()
+    frame = None
+    if useStaticImageOnly:
+        frame = cap
+    else:
+        unusedRet, frame = cap.read()
     p_frame = frame.copy()
 
     contours = processFrameForContour(frame)
@@ -175,6 +182,7 @@ while True:
         # Check if the answer has been already predicted or not
         # If not predict the answer
         # Else only get the cell regions
+        cell = 1
         if flag != 1:
             predicted_digits = []
             pixels_sum = []
@@ -190,6 +198,9 @@ while True:
 
                 # Obtained Cell
                 image = invert_window[y2min:y2max, x2min:x2max]
+                if cell:
+                    cell = 0
+                    cv2.imshow("HELP ME GOD EMPEROR!", image)
 
                 # Process the cell to feed it into model
                 img = cv2.resize(image, (28, 28))
@@ -223,7 +234,7 @@ while True:
             # Get predicted digit list
             if flag != 1:
                 predicted_digits.append(predicted_line)
-                print(str(predicted_digits))
+            print(str(predicted_digits))
 
             # Get solved Sudoku
             ans = solveSudoku(predicted_digits)
