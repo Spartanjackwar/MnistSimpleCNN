@@ -17,8 +17,8 @@ if use_cuda == False:
     exit(0)
 
 #Load the model
-#new_model = tf.keras.models.load_model('Digit_Recognizer.h5')
-new_model = ModelM5().to(device)
+new_model = tf.keras.models.load_model('Digit_Recognizer.h5')
+#new_model = ModelM5().to(device)
 
 #Parameters for Warping the image
 margin = 10
@@ -44,17 +44,22 @@ def findNextCellToFill(grid, i, j):
 
 
 def isValid(grid, i, j, e):
-    rowOk = all([e != grid[i][x] for x in range(9)])
-    if rowOk:
-        columnOk = all([e != grid[x][j] for x in range(9)])
-        if columnOk:
-            # finding the top left x,y co-ordinates of the section containing the i,j cell
-            secTopX, secTopY = 3 * (i // 3), 3 * (j // 3)  # floored quotient should be used here.
-            for x in range(secTopX, secTopX + 3):
-                for y in range(secTopY, secTopY + 3):
-                    if grid[x][y] == e:
-                        return False
-            return True
+    try:
+        rowOk = all([e != grid[i][x] for x in range(9)])
+
+        #If row is valid, try to check the columns.
+        if rowOk:
+            columnOk = all([e != grid[x][j] for x in range(9)])
+            if columnOk:
+                # finding the top left x,y co-ordinates of the section containing the i,j cell
+                secTopX, secTopY = 3 * (i // 3), 3 * (j // 3)  # floored quotient should be used here.
+                for x in range(secTopX, secTopX + 3):
+                    for y in range(secTopY, secTopY + 3):
+                        if grid[x][y] == e:
+                            return False
+                return True
+    except IndexError:
+        pass
     return False
 
 
@@ -181,6 +186,8 @@ while True:
                 y2max = (y + 1) * case - margin
                 x2min = x * case + margin
                 x2max = (x + 1) * case - margin
+
+                i = 0
 
                 # Obtained Cell
                 image = invert_window[y2min:y2max, x2min:x2max]

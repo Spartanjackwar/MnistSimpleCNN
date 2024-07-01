@@ -60,7 +60,7 @@ print(train_images.shape)
 print(test_images.shape)
 print(val_images.shape)
 
-plt.imshow(images[200])
+#plt.imshow(images[200])
 
 #Define the callback
 class myCallback(tf.keras.callbacks.Callback):
@@ -81,7 +81,8 @@ model = tf.keras.models.Sequential([
     tf.keras.layers.Flatten(),
     tf.keras.layers.Dense(128, activation="relu"),
     tf.keras.layers.Dropout(0.5),
-    tf.keras.layers.Dense(10,activation=tf.nn.softmax)
+    #tf.keras.layers.Dense(10,activation=tf.nn.softmax)
+    tf.keras.layers.Dense(10,activation=tf.keras.activations.softmax)
 ])
 
 model.compile(optimizer='adam',
