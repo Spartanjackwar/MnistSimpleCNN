@@ -1,10 +1,27 @@
-## MnistSimpleCNN
+## MnistSimpleCNN Sudoku
+The purpose of the repository is to solve sudokus and ended up using a different model than the MNIST trained M3+M5+M7.
+To find the data we used to train our model, visit the following page and download the EnglishImg.tgz: https://teodecampos.github.io/chars74k/
+The following dependencies are required:
+```bash
+pip3 install opencv-python
+pip3 install imutils
+pip3 install matplotlib
+pip3 install tensorflow
+pip3 install scikit-learn
+```
+To train the model:
+```bash
+python3 DigitRecofnizerModel.py
+```
+To use the model:
+```bash
+python3 SudokuSolver.py
+```
 
-This repository is implementation of "An Ensemble of Simple Convolutional Neural Network Models for MNIST Digit Recognition".
 
+This repository contains an implementation of "An Ensemble of Simple Convolutional Neural Network Models for MNIST Digit Recognition".
 Paper url is https://arxiv.org/abs/2008.10400.
-
-In paper, we propose simple models classifying MNIST called M3, M5, M7 following kernel size.
+In paper, they proposed simple models classifying MNIST called M3, M5, M7 following kernel size.
 
 ### Train
 
