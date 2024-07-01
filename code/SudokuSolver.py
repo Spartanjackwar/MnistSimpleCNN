@@ -18,7 +18,6 @@ if use_cuda == False:
 
 #Load the model
 new_model = tf.keras.models.load_model('Digit_Recognizer.h5')
-#new_model = tf.keras.models.load_model('Digit_RecognizerBETTER.h5')
 #new_model = ModelM5().to(device)
 
 #Parameters for Warping the image
@@ -200,7 +199,7 @@ while True:
                 image = invert_window[y2min:y2max, x2min:x2max]
                 if cell:
                     cell = 0
-                    cv2.imshow("HELP ME GOD EMPEROR!", image)
+                    #cv2.imshow("HELP ME GOD EMPEROR!", image)
 
                 # Process the cell to feed it into model
                 img = cv2.resize(image, (28, 28))
