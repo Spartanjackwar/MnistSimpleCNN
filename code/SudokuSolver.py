@@ -87,6 +87,8 @@ def processFrameForContour(frame):
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     gray = cv2.GaussianBlur(gray, (5, 5), 0)
     thresh = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 9, 2)
+
+    #Get all of the contrours in the frame.
     contours_, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     return contours_
 
@@ -160,11 +162,9 @@ while True:
     p_frame = frame.copy()
 
     contours = processFrameForContour(frame)
-    largestContour = FindLargestContour(contours)
-    contour = largestContour[0]
-    maxArea = largestContour[1]
+    contour, maxArea = FindLargestContour(contours)
     if contour is not None:
-        result, invert, invert_window, matrix, p_window = ExtractGrid(largestContour, frame)
+        result, invert, invert_window, matrix, p_window = ExtractGrid(contour, frame)
 
         # Check if the answer has been already predicted or not
         # If not predict the answer
